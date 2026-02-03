@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { forwardRef, type FormEvent, type KeyboardEvent } from "react";
+import { forwardRef, useCallback, type FormEvent, type KeyboardEvent, type FocusEvent } from "react";
 
 interface ChatInputProps {
   value: string;
@@ -24,17 +24,40 @@ export const ChatInput = forwardRef<HTMLTextAreaElement, ChatInputProps>(
       }
     };
 
+    // Reset scroll position when keyboard closes (blur event)
+    const handleBlur = useCallback((e: FocusEvent<HTMLTextAreaElement>) => {
+      // Small delay to allow keyboard to close first
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }, 100);
+    }, []);
+
+    // Ensure input stays visible when focused
+    const handleFocus = useCallback((e: FocusEvent<HTMLTextAreaElement>) => {
+      // Scroll the input into view with a slight delay for iOS
+      setTimeout(() => {
+        e.target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 300);
+    }, []);
+
     return (
-      <form onSubmit={handleSubmit} className="flex w-full gap-2">
+      <form onSubmit={handleSubmit} className="flex w-full gap-2 items-end">
         <Textarea
           ref={ref}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           placeholder="Type your message... (Enter to send)"
           disabled={isDisabled}
-          className="min-h-[44px] max-h-[120px] resize-none text-sm sm:text-base"
+          className="min-h-[44px] max-h-[120px] resize-none text-base"
           rows={1}
+          autoComplete="off"
+          autoCorrect="on"
+          enterKeyHint="send"
         />
         {isDisabled ? (
           <Button

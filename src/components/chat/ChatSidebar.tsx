@@ -51,6 +51,7 @@ export function ChatSidebar({
           "fixed md:relative inset-y-0 left-0 z-50 w-72 bg-card border-r flex flex-col transition-transform duration-300 md:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        style={{ height: '100dvh' }}
       >
         {/* Header */}
         <div className="p-3 border-b flex items-center justify-between">

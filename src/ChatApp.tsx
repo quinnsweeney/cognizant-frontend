@@ -154,7 +154,7 @@ export function ChatApp() {
   const isDisabled = status === "loading" || status === "streaming";
 
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-full w-full overflow-hidden" style={{ height: '100dvh' }}>
       {/* Sidebar */}
       <ChatSidebar
         chats={chatList}
@@ -168,7 +168,7 @@ export function ChatApp() {
       />
 
       {/* Main chat area */}
-      <Card className="flex-1 h-full flex flex-col border-0 sm:border-l-0 md:border-l rounded-none sm:rounded-none md:rounded-r-xl">
+      <Card className="flex-1 min-h-0 flex flex-col border-0 sm:border-l-0 md:border-l rounded-none sm:rounded-none md:rounded-r-xl overflow-hidden">
         <ChatHeader
           onClear={clearCurrentChat}
           isClearDisabled={messages.length === 0 && status === "idle"}
@@ -184,7 +184,7 @@ export function ChatApp() {
           onRetry={handleRetry}
         />
 
-        <CardFooter className="border-t p-3 sm:p-4 flex-shrink-0">
+        <CardFooter className="border-t p-3 sm:p-4 flex-shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <ChatInput
             ref={textareaRef}
             value={inputValue}
