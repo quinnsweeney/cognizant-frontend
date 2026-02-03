@@ -57,7 +57,7 @@ export function ChatSidebar({
         <div className="p-3 border-b flex items-center justify-between">
           <h2 className="font-semibold text-lg">Chats</h2>
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon-sm" onClick={onNewChat} title="New Chat">
+            <Button variant="ghost" size="icon-sm" onClick={() => { onNewChat(); onClose(); }} title="New Chat">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -127,7 +127,7 @@ export function ChatSidebar({
           ) : chats.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <p className="text-sm">No chats yet</p>
-              <Button variant="link" size="sm" onClick={onNewChat} className="mt-2">
+              <Button variant="link" size="sm" onClick={() => { onNewChat(); onClose(); }} className="mt-2">
                 Start a new chat
               </Button>
             </div>
